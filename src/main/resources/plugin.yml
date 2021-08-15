@@ -2,10 +2,12 @@ name: LightBlockZ
 version: 1.0
 main: com.itsazza.lightblockz.LightBlockZ
 api-version: 1.17
-authors: [ ItsAZZA ]
+author: ItsAZZA
 website: https://bcsn.us
 commands:
-  lightblockz:
-    aliases: "lightblocks"
-  test:
-    aliases: []
+  lightinspect:
+    permission: "lightblockz.inspect"
+  lighttool:
+    permission: "lightblockz.tool"
+  lightreload:
+    permission: "lightblockz.reload"

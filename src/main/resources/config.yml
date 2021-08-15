@@ -1,0 +1,25 @@
+settings:
+  inspect:
+    # Set the cool down for the inspect tool (and command) in seconds
+    cooldown:
+      enabled: true
+      time: 30
+    # How many times the particles are spawned in. The particle shows for approx. 5 seconds
+    iterations: 4
+    # Should the milliseconds taken be shown in the message?
+    showTimeTaken: true
+  # The light block recipe where each character in the shape corresponds to a material.
+  # For air use a blank space. The recipe is a shaped recipe and each line corresponds to a line
+  # in the crafting grid. Recipe can be 1-3 lines and 1-3 ingredients (including air) per line.
+  # To change the recipe in the server, you must restart your server !!!
+  recipe:
+    enabled: true
+    shape:
+      - "PGP"
+      - "GIG"
+      - "PGP"
+    ingredients:
+      P: "GLASS_PANE"
+      G: "GLOWSTONE"
+      I: "IRON_NUGGET"
+    amount: 4

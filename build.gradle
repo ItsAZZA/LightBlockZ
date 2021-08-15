@@ -19,11 +19,13 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
     implementation "de.themoep:inventorygui:1.4.2-SNAPSHOT"
     implementation "de.tr7zw:item-nbt-api:2.8.0"
+    implementation "org.bstats:bstats-bukkit:2.2.1"
 }
 
 shadowJar {
     relocate('de.themoep', 'com.itsazza.resources.themoep')
     relocate('de.tr7zw', 'com.itsazza.resources.item-nbt-api')
+    relocate('org.bstats', 'com.itsazza.resources.bstats')
     archiveName("LightBlockZ.jar")
     minimize()
 }
