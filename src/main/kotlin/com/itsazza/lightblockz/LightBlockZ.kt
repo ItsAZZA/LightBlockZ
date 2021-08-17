@@ -3,6 +3,7 @@ package com.itsazza.lightblockz
 import com.itsazza.lightblockz.commands.InspectCommand
 import com.itsazza.lightblockz.commands.ReloadCommand
 import com.itsazza.lightblockz.commands.ToolCommand
+import com.itsazza.lightblockz.events.CreativeInteractEvent
 import com.itsazza.lightblockz.events.LightBlockEvent
 import com.itsazza.lightblockz.events.ToolEvents
 import org.bstats.bukkit.Metrics
@@ -32,6 +33,7 @@ class LightBlockZ : JavaPlugin() {
         getCommand("lightreload")?.setExecutor(ReloadCommand)
         Bukkit.getPluginManager().registerEvents(ToolEvents, this)
         Bukkit.getPluginManager().registerEvents(LightBlockEvent, this)
+        Bukkit.getPluginManager().registerEvents(CreativeInteractEvent, this)
         if (config.getBoolean("settings.recipe.enabled")) {
             setupRecipe()
         }
