@@ -6,7 +6,7 @@ author: ItsAZZA
 website: https://bcsn.us
 commands:
   lightinspect:
-    permission: "lightblockz.inspect"
+    permission: "lightblockz.inspect.command"
   lighttool:
     permission: "lightblockz.tool"
   lightreload:

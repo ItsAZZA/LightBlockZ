@@ -17,7 +17,7 @@ class InspectCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val player = sender as? Player ?: return true
         val config = LightBlockZ.instance.config
-        if (!player.hasPermission("lightblockz.inspect")) {
+        if (!player.hasPermission("lightblockz.inspect.command")) {
             player.sendMessage("§cNo permission!")
             return true
         }
@@ -43,22 +43,25 @@ class InspectCommand : CommandExecutor {
 
         val showTime = config.getBoolean("settings.inspect.showTimeTaken")
         player.sendMessage("§eHighlighting ${locations.size} light blocks around you${if (showTime) " §7(${time}ms)" else ""}")
-        highlightBlocks(locations)
+        highlightBlocks(locations, player)
         return true
     }
 
     companion object {
-        private val iterations = LightBlockZ.instance.config.getInt("settings.inspect.iterations")
-        fun highlightBlocks(locations: List<Location>) {
-            locations.forEach {
-                val world = it.world!!
-                it.add(0.5, 0.5, 0.5)
+        fun highlightBlocks(locations: List<Location>, player: Player) {
+            val perPlayer = LightBlockZ.instance.config.getBoolean("settings.inspect.perPlayer")
+            val iterations = LightBlockZ.instance.config.getInt("settings.inspect.iterations")
+            val playerParticles = fun(location: Location) { player.spawnParticle(Particle.LIGHT, location, 1) }
+            val worldParticles = fun(location: Location) { location.world?.spawnParticle(Particle.LIGHT, location, 1) }
+            val finalCommand = if (perPlayer) playerParticles else worldParticles
 
+            locations.forEach {
+                it.add(0.5, 0.5, 0.5)
                 object : BukkitRunnable() {
                     private var i = 0
                     override fun run() {
                         i++
-                        world.spawnParticle(Particle.LIGHT, it, 1)
+                        finalCommand(it)
                         if (i >= iterations) {
                             cancel()
                         }

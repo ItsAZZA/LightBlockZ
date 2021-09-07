@@ -66,6 +66,8 @@ object ToolEvents : Listener {
         val item = event.item ?: return
         if (!item.enchantments.containsKey(Enchantment.LUCK)) return
 
+        if (!player.hasPermission("lightblockz.inspect.tool")) return
+
         val config = LightBlockZ.instance.config
         if (config.getBoolean("settings.inspect.cooldown.enabled") && !player.hasPermission("lightblockz.inspect.bypasscooldown")) {
             val cooldown = Cooldown.check(player.uniqueId, config.getInt("settings.inspect.cooldown.time"))
@@ -88,7 +90,7 @@ object ToolEvents : Listener {
 
         val showTime = config.getBoolean("settings.inspect.showTimeTaken")
         player.sendMessage("§eHighlighting ${locations.size} light blocks around you${if (showTime) " §7(${time}ms)" else ""}")
-        InspectCommand.highlightBlocks(locations)
+        InspectCommand.highlightBlocks(locations, player)
     }
 
     @EventHandler
