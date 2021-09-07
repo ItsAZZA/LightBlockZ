@@ -1,6 +1,6 @@
 package com.itsazza.lightblockz.menu
 
-import com.itsazza.lightblockz.LightBlockZ
+import com.itsazza.lightblockz.LightBlockZ.Companion.instance
 import de.themoep.inventorygui.GuiElementGroup
 import de.themoep.inventorygui.InventoryGui
 import de.themoep.inventorygui.StaticGuiElement
@@ -27,8 +27,8 @@ class LightBlockLevelMenu {
 
     private fun create(): InventoryGui {
         val gui = InventoryGui(
-            LightBlockZ.instance,
-            "Set Light Level",
+            instance,
+            instance.getLangString("gui-light-level-menu-name"),
             arrayOf(
                 "         ",
                 " 0000000 ",
@@ -45,7 +45,7 @@ class LightBlockLevelMenu {
                 it.gui.destroy()
                 return@addElement true
             },
-            "§c§lClose"
+            instance.getLangString("gui-close-button")
         )
 
         val group = GuiElementGroup('0')
@@ -64,6 +64,9 @@ class LightBlockLevelMenu {
             val tag = NBTContainer("{BlockStateTag: {level: $level}}")
             it.mergeCompound(tag)
         }.item
+
+        val name = instance.getLangString("gui-light-level-button-name").format(level)
+        val description = instance.getLangString("gui-light-level-button-description").format(level)
 
         return StaticGuiElement(
             '!',
@@ -90,11 +93,8 @@ class LightBlockLevelMenu {
                     }
                 }
             },
-            "§6§lLight Level $level",
-            "§7Sets the light level",
-            "§7to a power of $level/15",
-            "§0 ",
-            "§eClick to apply!"
+            name,
+            *description.split('\n').toTypedArray()
         )
     }
 

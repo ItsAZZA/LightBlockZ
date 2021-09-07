@@ -13,9 +13,8 @@ import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
 import org.bukkit.plugin.java.JavaPlugin
-import java.lang.Error
-import java.lang.IllegalArgumentException
 import java.util.logging.Level
+
 
 class LightBlockZ : JavaPlugin() {
     companion object {
@@ -37,6 +36,10 @@ class LightBlockZ : JavaPlugin() {
         if (config.getBoolean("settings.recipe.enabled")) {
             setupRecipe()
         }
+    }
+
+    fun getLangString(path: String) : String {
+        return config.getString("messages.$path") ?: throw NullPointerException()
     }
 
     private fun setupRecipe() {

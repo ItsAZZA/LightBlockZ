@@ -1,6 +1,7 @@
 package com.itsazza.lightblockz.events
 
 import com.itsazza.lightblockz.LightBlockZ
+import com.itsazza.lightblockz.LightBlockZ.Companion.instance
 import com.itsazza.lightblockz.commands.InspectCommand
 import com.itsazza.lightblockz.menu.LightBlockLevelMenu
 import com.itsazza.lightblockz.util.BlockFinder
@@ -36,7 +37,7 @@ object ToolEvents : Listener {
         if (!item.enchantments.containsKey(Enchantment.LUCK)) return
 
         if (!event.player.canBreak(block)) {
-            event.player.sendMessage("§cNo permission to build here!")
+            event.player.sendMessage(instance.getLangString("no-build-permission"))
             return
         }
 
@@ -50,7 +51,7 @@ object ToolEvents : Listener {
             val location = block.location
             val world = location.world!!
             world.dropItem(location, ItemStack(Material.LIGHT))
-            player.playSound(player.location, Sound.BLOCK_GLASS_BREAK, 1.0f, 1.0f)
+            player.playSound(player.location, instance.config.getString("settings.tool.breakSound")!!, 1.0f, 1.0f)
             event.isCancelled = true
         }
     }
@@ -68,12 +69,12 @@ object ToolEvents : Listener {
 
         if (!player.hasPermission("lightblockz.inspect.tool")) return
 
-        val config = LightBlockZ.instance.config
+        val config = instance.config
         if (config.getBoolean("settings.inspect.cooldown.enabled") && !player.hasPermission("lightblockz.inspect.bypasscooldown")) {
             val cooldown = Cooldown.check(player.uniqueId, config.getInt("settings.inspect.cooldown.time"))
             if (cooldown != null) {
                 player.playSound(player.location, Sound.ENTITY_VILLAGER_NO, 1f, 1f)
-                player.sendMessage("§cYou must wait $cooldown seconds before using this again...")
+                player.sendMessage(instance.getLangString("inspect-cooldown-wait").format(cooldown))
                 return
             }
         }
@@ -84,12 +85,12 @@ object ToolEvents : Listener {
         }
 
         if (locations.isEmpty()) {
-            player.sendMessage("§cNo light blocks found nearby!")
+            player.sendMessage(instance.getLangString("inspect-noblocks"))
             return
         }
 
         val showTime = config.getBoolean("settings.inspect.showTimeTaken")
-        player.sendMessage("§eHighlighting ${locations.size} light blocks around you${if (showTime) " §7(${time}ms)" else ""}")
+        player.sendMessage(instance.getLangString("inspect-highlight").format(locations.size, if (showTime) " (${time}ms)" else ""))
         InspectCommand.highlightBlocks(locations, player)
     }
 

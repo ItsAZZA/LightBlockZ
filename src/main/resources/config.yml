@@ -1,4 +1,6 @@
 settings:
+  tool:
+    breakSound: "minecraft:block.glass.break"
   inspect:
     # Set the cool down for the inspect tool (and command) in seconds
     cooldown:
@@ -25,3 +27,19 @@ settings:
       G: "GLOWSTONE"
       I: "IRON_NUGGET"
     amount: 4
+
+# Configure the plugin messages, the message should always include all the %s as
+# it's used to paste in information such as time. The messages won't work without them !!!
+messages:
+  general-no-permission: "§cNo permission!"
+  general-no-build-permission: "§cNo permission to build here!"
+  general-reload: "§eReloaded config!"
+  gui-close-button: "§c§lClose"
+  gui-light-level-menu-name: "Set Light Level"
+  gui-light-level-button-name: "§6§lLight Level %s"
+  gui-light-level-button-description: "§7Sets the light level\n§7to a power of %s/15\n§0 \n§eClick to apply!"
+  inspect-highlight: "§eHighlighting %s light blocks around you§7%s"
+  inspect-noblocks: "§cNo light blocks found nearby!"
+  inspect-cooldown-wait: "§cYou must wait %s seconds before using this again..."
+  inspect-tool-name: "§c§lLight Block Tool"
+  inspect-tool-lore: "§7Lets you edit the light\n§7blocks with ease\n§0 \n§e§lL-CLICK §7to destroy\n§e§lR-CLICK §7to inspect\n§e§lSHIFT-L-CLICK §7to edit"

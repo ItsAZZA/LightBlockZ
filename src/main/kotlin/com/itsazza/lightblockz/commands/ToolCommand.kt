@@ -1,5 +1,6 @@
 package com.itsazza.lightblockz.commands
 
+import com.itsazza.lightblockz.LightBlockZ.Companion.instance
 import de.tr7zw.changeme.nbtapi.NBTItem
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.Material
@@ -15,21 +16,14 @@ object ToolCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player) return true
         if (!sender.hasPermission("lightblockz.tool")) {
-            sender.sendMessage("§cNo permission for the tool")
+            sender.sendMessage(instance.getLangString("general-no-permission"))
             return true
         }
 
         val breakingTool = ItemStack(Material.LIGHT).also {
             val meta = it.itemMeta!!
-            meta.setDisplayName("§c§lLight Block Tool")
-            meta.lore = arrayListOf(
-                "§7Lets you edit the light",
-                "§7blocks with ease",
-                "§0 ",
-                "§e§lL-CLICK §7to destroy",
-                "§e§lR-CLICK §7to inspect",
-                "§e§lSHIFT-L-CLICK §7to edit"
-            )
+            meta.setDisplayName(instance.getLangString("inspect-tool-name"))
+            meta.lore = instance.getLangString("inspect-tool-lore").split('\n')
             meta.addEnchant(Enchantment.LUCK, 1, true)
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
             it.itemMeta = meta
