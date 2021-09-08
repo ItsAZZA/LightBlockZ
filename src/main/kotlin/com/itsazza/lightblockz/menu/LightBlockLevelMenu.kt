@@ -78,7 +78,7 @@ class LightBlockLevelMenu {
                         val data = block!!.blockData as Light
                         data.level = level
                         block!!.blockData = data
-                        player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
+                        player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 0.5f + 0.1f * level)
                         return@StaticGuiElement true
                     }
                     EditMode.STACK -> {
