@@ -33,6 +33,7 @@ settings:
 messages:
   general-no-permission: "§cNo permission!"
   general-no-build-permission: "§cNo permission to build here!"
+  general-no-craft-permission: "§cNo crafting permission!"
   general-reload: "§eReloaded config!"
   gui-close-button: "§c§lClose"
   gui-light-level-menu-name: "Set Light Level"
