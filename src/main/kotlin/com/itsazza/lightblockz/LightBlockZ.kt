@@ -34,9 +34,9 @@ class LightBlockZ : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(ToolEvents, this)
         Bukkit.getPluginManager().registerEvents(LightBlockEvent, this)
         Bukkit.getPluginManager().registerEvents(CreativeInteractEvent, this)
-        Bukkit.getPluginManager().registerEvents(CraftEvent, this)
         if (config.getBoolean("settings.recipe.enabled")) {
             setupRecipe()
+            Bukkit.getPluginManager().registerEvents(CraftEvent, this)
         }
     }
 
