@@ -19,6 +19,7 @@ object LightBlockEvent : Listener {
         if (item.type != Material.LIGHT) return
         if (item.containsEnchantment(Enchantment.LUCK)) return
         if (!event.player.hasPermission("lightblockz.change.interact")) return
+
         LightBlockLevelMenu().open(event.player, LightBlockLevelMenu.EditMode.STACK, stack = item)
     }
 }

@@ -16,9 +16,11 @@ object CreativeInteractEvent : Listener {
         if (event.action != Action.LEFT_CLICK_BLOCK) return
         if (!event.player.isSneaking) return
         if (event.player.gameMode != GameMode.CREATIVE) return
+
         val clickedBlock = event.clickedBlock ?: return
         if (clickedBlock.type != Material.LIGHT) return
         if (!event.player.hasPermission("lightblockz.change.creative")) return
+
         LightBlockLevelMenu().open(event.player, LightBlockLevelMenu.EditMode.BLOCK, clickedBlock)
         event.isCancelled = true
     }

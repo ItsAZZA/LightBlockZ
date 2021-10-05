@@ -16,12 +16,12 @@ object CraftEvent : Listener {
         if (event.slot != 0) return
 
         val result = craftingInventory.result ?: return
-        if (result.type == Material.LIGHT) {
-            val player = event.whoClicked as? Player ?: return
-            if (!player.hasPermission("lightblockz.craft")) {
-                event.isCancelled = true
-                player.sendMessage(instance.getLangString("general-no-craft-permission"))
-            }
-        }
+        if (result.type != Material.LIGHT) return
+
+        val player = event.whoClicked as? Player ?: return
+        if (player.hasPermission("lightblockz.craft")) return
+
+        event.isCancelled = true
+        player.sendMessage(instance.getLangString("general-no-craft-permission"))
     }
 }
