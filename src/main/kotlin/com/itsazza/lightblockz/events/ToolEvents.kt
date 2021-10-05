@@ -1,6 +1,5 @@
 package com.itsazza.lightblockz.events
 
-import com.itsazza.lightblockz.LightBlockZ
 import com.itsazza.lightblockz.LightBlockZ.Companion.instance
 import com.itsazza.lightblockz.commands.InspectCommand
 import com.itsazza.lightblockz.menu.LightBlockLevelMenu
@@ -61,11 +60,12 @@ object ToolEvents : Listener {
         if (event.hand != EquipmentSlot.HAND) return
         if (event.action != Action.RIGHT_CLICK_AIR && event.action != Action.RIGHT_CLICK_BLOCK) return
 
+        val item = event.item ?: return
+        if (item.type != Material.LIGHT) return
+        if (!item.enchantments.containsKey(Enchantment.LUCK)) return
+
         val player = event.player
         if (player.gameMode != GameMode.SURVIVAL) return
-
-        val item = event.item ?: return
-        if (!item.enchantments.containsKey(Enchantment.LUCK)) return
 
         if (!player.hasPermission("lightblockz.inspect.tool")) return
 
@@ -80,9 +80,7 @@ object ToolEvents : Listener {
         }
 
         val locations: List<Location>
-        val time = measureTimeMillis {
-            locations = BlockFinder.getLightBlocksAroundPlayer(player)
-        }
+        val time = measureTimeMillis { locations = BlockFinder.getLightBlocksAroundPlayer(player) }
 
         if (locations.isEmpty()) {
             player.sendMessage(instance.getLangString("inspect-noblocks"))
