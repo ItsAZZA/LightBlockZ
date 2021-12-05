@@ -6,10 +6,11 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 
 object BlockFinder {
-    private fun getLightBlocksInChunk(chunk: Chunk) : List<Location> {
+    private fun getLightBlocksInChunk(chunk: Chunk, playerLocation: Location, verticalOffset: Int): List<Location> {
         val world = chunk.world
-        val minHeight = world.minHeight
-        val maxHeight = world.maxHeight
+        val playerY = playerLocation.blockY
+        val minHeight = (playerY - verticalOffset).coerceAtLeast(world.minHeight)
+        val maxHeight = (playerY + verticalOffset).coerceAtMost(world.maxHeight)
         val locations = mutableListOf<Location>()
 
         for (x in 0 until 16) {
@@ -25,8 +26,10 @@ object BlockFinder {
         return locations
     }
 
-    fun getLightBlocksAroundPlayer(player: Player) : List<Location> {
-        val offset = arrayOf(-1, 0, 1)
+    fun getLightBlocksAroundPlayer(player: Player, offset: Int = 0, verticalOffset: Int): List<Location> {
+        if (offset == 0) return getLightBlocksInChunk(player.location.chunk, player.location, verticalOffset)
+        val offsetArray = IntRange(-offset, offset).step(1).toList()
+
         val world = player.world
         val playerChunk = player.location.chunk
         val baseX = playerChunk.x
@@ -34,10 +37,10 @@ object BlockFinder {
 
         val listOfLocations = mutableListOf<Location>()
 
-        for (x in offset) {
-            for (z in offset) {
+        for (x in offsetArray) {
+            for (z in offsetArray) {
                 val chunk = world.getChunkAt(baseX + x, baseZ + z)
-                listOfLocations += getLightBlocksInChunk(chunk)
+                listOfLocations += getLightBlocksInChunk(chunk, player.location, verticalOffset)
             }
         }
         return listOfLocations

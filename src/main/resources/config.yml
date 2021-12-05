@@ -12,6 +12,15 @@ settings:
     showTimeTaken: true
     # Should the particles be shown for a single player or everyone in the world?
     perPlayer: true
+    # How many chunks are looked at when inspecting?
+    # This is radius of chunks around the player.
+    # 0 = just the player's chunk, 1 = the player's chunk and the 8 chunks around it, etc.
+    # WARNING: It is recommended to not set this to a value greater than 2. Since it can take a while to calculate.
+    offset: 1
+    # How many blocks up and down related to the player are looked through when inspecting?
+    # It doesn't make sense to show all light blocks in the chunk since the player won't be able to see them.
+    # For example, a value of '30' will go up and down 30 blocks from the player.
+    verticalOffset: 30
   # The light block recipe where each character in the shape corresponds to a material.
   # For air use a blank space. The recipe is a shaped recipe and each line corresponds to a line
   # in the crafting grid. Recipe can be 1-3 lines and 1-3 ingredients (including air) per line.

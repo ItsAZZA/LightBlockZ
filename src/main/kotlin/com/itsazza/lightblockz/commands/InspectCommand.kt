@@ -32,8 +32,10 @@ class InspectCommand : CommandExecutor {
         }
 
         val locations: List<Location>
+        val offset = config.getInt("settings.inspect.offset")
+        val verticalOffset = config.getInt("settings.inspect.verticalOffset")
         val time = measureTimeMillis {
-            locations = BlockFinder.getLightBlocksAroundPlayer(player)
+            locations = BlockFinder.getLightBlocksAroundPlayer(player, offset, verticalOffset)
         }
 
         if (locations.isEmpty()) {
@@ -42,7 +44,9 @@ class InspectCommand : CommandExecutor {
         }
 
         val showTime = config.getBoolean("settings.inspect.showTimeTaken")
-        player.sendMessage(instance.getLangString("inspect-highlight").format(locations.size, if (showTime) " (${time}ms)" else ""))
+        player.sendMessage(
+            instance.getLangString("inspect-highlight").format(locations.size, if (showTime) " (${time}ms)" else "")
+        )
         highlightBlocks(locations, player)
         return true
     }
@@ -51,8 +55,22 @@ class InspectCommand : CommandExecutor {
         fun highlightBlocks(locations: List<Location>, player: Player) {
             val perPlayer = instance.config.getBoolean("settings.inspect.perPlayer")
             val iterations = instance.config.getInt("settings.inspect.iterations")
-            val playerParticles = fun(location: Location) { player.spawnParticle(Particle.LIGHT, location, 1) }
-            val worldParticles = fun(location: Location) { location.world?.spawnParticle(Particle.LIGHT, location, 1) }
+            val particle = Particle.values().firstOrNull { it.name == "LIGHT" }
+
+            val playerParticles = fun(location: Location) {
+                val world = location.world ?: return
+                if (particle == null)
+                    world.spawnParticle(Particle.BLOCK_MARKER, location, 1, world.getBlockAt(location).blockData)
+                else
+                    player.spawnParticle(particle, location, 1)
+            }
+            val worldParticles = fun(location: Location) {
+                val world = location.world ?: return
+                if (particle == null)
+                    world.spawnParticle(Particle.BLOCK_MARKER, location, 1, world.getBlockAt(location).blockData)
+                else
+                    world.spawnParticle(particle, location, 1)
+            }
             val finalCommand = if (perPlayer) playerParticles else worldParticles
 
             locations.forEach {

@@ -80,7 +80,9 @@ object ToolEvents : Listener {
         }
 
         val locations: List<Location>
-        val time = measureTimeMillis { locations = BlockFinder.getLightBlocksAroundPlayer(player) }
+        val offset = config.getInt("settings.inspect.offset")
+        val verticalOffset = config.getInt("settings.inspect.verticalOffset")
+        val time = measureTimeMillis { locations = BlockFinder.getLightBlocksAroundPlayer(player, offset, verticalOffset) }
 
         if (locations.isEmpty()) {
             player.sendMessage(instance.getLangString("inspect-noblocks"))
@@ -88,7 +90,9 @@ object ToolEvents : Listener {
         }
 
         val showTime = config.getBoolean("settings.inspect.showTimeTaken")
-        player.sendMessage(instance.getLangString("inspect-highlight").format(locations.size, if (showTime) " (${time}ms)" else ""))
+        player.sendMessage(
+            instance.getLangString("inspect-highlight").format(locations.size, if (showTime) " (${time}ms)" else "")
+        )
         InspectCommand.highlightBlocks(locations, player)
     }
 
