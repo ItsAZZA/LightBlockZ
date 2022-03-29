@@ -16,7 +16,6 @@ import org.bukkit.inventory.ShapedRecipe
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
 
-
 class LightBlockZ : JavaPlugin() {
     companion object {
         lateinit var instance: LightBlockZ
@@ -63,12 +62,12 @@ class LightBlockZ : JavaPlugin() {
             val materialString = config.getString("settings.recipe.ingredients.$ingredientKey")!!
             val material = Material.matchMaterial(materialString)
             if (material == null) {
-                logger.log(Level.SEVERE, "Could not find material for \"$material\"")
+                logger.log(Level.SEVERE, "Could not find material for \"$materialString\"")
                 return
             }
             recipe.setIngredient(ingredientKey.first(), material)
         }
-        logger.log(Level.INFO, "Added crafting recipe for light block!")
+        logger.log(Level.INFO, "Added crafting recipe for the light block!")
         Bukkit.addRecipe(recipe)
     }
 }
