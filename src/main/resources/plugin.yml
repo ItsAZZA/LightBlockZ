@@ -1,11 +1,12 @@
 name: LightBlockZ
-version: 1.2.3
+version: 1.2.4
 main: com.itsazza.lightblockz.LightBlockZ
 api-version: 1.17
 author: ItsAZZA
 website: https://bcsn.us
+softdepend: [kotlin-stdlib]
 libraries:
-  - 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+  - 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
 commands:
   lightinspect:
     permission: "lightblockz.inspect.command"
